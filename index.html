@@ -282,6 +282,692 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/09/安装redis集群/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/09/安装redis集群/" itemprop="url">安装redis集群</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-09T21:58:26+08:00">
+                2019-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/09/安装redis集群/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/07/09/安装redis集群/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/07/09/安装redis集群/" class="leancloud_visitors" data-flag-title="安装redis集群">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<p>[TOC]</p>
+<h2 id="上传压缩包"><a href="#上传压缩包" class="headerlink" title="上传压缩包"></a>上传压缩包</h2><p>将redis-5.0.4.tar.gz压缩包上传到opt目录下</p>
+<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /opt/</span><br><span class="line">[root@localhost opt]# tar -zxvf redis-5.0.4</span><br></pre></td></tr></table></figure>
+<h2 id="安装gcc-gcc-c"><a href="#安装gcc-gcc-c" class="headerlink" title="安装gcc gcc-c++"></a>安装gcc gcc-c++</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost opt]# yum install gcc gcc‐c++ libstdc++‐devel</span><br></pre></td></tr></table></figure>
+<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost opt]# cd ./redis-5.0.4</span><br><span class="line">[root@localhost redis-5.0.4]# make</span><br><span class="line">[root@localhost redis-5.0.4]# make install</span><br></pre></td></tr></table></figure>
+<h2 id="redis-trib-rb"><a href="#redis-trib-rb" class="headerlink" title="redis-trib.rb"></a>redis-trib.rb</h2><p>将 redis-trib.rb 复制到 /usr/local/bin 目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis-5.0.4]# cd src/</span><br><span class="line">[root@localhost src]# cp redis-trib.rb /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<h2 id="创建redis节点"><a href="#创建redis节点" class="headerlink" title="创建redis节点"></a>创建redis节点</h2><ul>
+<li><p><strong>创建redis_cluster目录</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost src]# cd ~</span><br><span class="line">[root@localhost ~]# mkdir /redis_cluster</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在redis_cluster目录下，创建7000、7001、7002、7003、7004、7005的目录，并将redis.conf拷贝到这六个目录</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /redis-cluster/</span><br><span class="line">[root@localhost redis-cluster]# mkdir 7000</span><br><span class="line">[root@localhost redis-cluster]# mkdir 7001</span><br><span class="line">[root@localhost redis-cluster]# mkdir 7002</span><br><span class="line">[root@localhost redis-cluster]# mkdir 7003</span><br><span class="line">[root@localhost redis-cluster]# mkdir 7004</span><br><span class="line">[root@localhost redis-cluster]# mkdir 7005</span><br><span class="line">[root@localhost redis-cluster]# cp /opt/redis-5.0.4/redis.conf ./7000/</span><br><span class="line">[root@localhost redis-cluster]# cp /opt/redis-5.0.4/redis.conf ./7001/</span><br><span class="line">[root@localhost redis-cluster]# cp /opt/redis-5.0.4/redis.conf ./7002/</span><br><span class="line">[root@localhost redis-cluster]# cp /opt/redis-5.0.4/redis.conf ./7003/</span><br><span class="line">[root@localhost redis-cluster]# cp /opt/redis-5.0.4/redis.conf ./7004/</span><br><span class="line">[root@localhost redis-cluster]# cp /opt/redis-5.0.4/redis.conf ./7005/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>分别修改这六个配置文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">port  7000                                        </span><br><span class="line">//端口7000,7001,7002,7003,7004,7005        </span><br><span class="line"></span><br><span class="line">bind 本机ip                                       </span><br><span class="line">//默认ip为127.0.0.1 需要改为其他节点机器可访问的ip 否则创建集群时无法访问对应的端口，无法创建集群</span><br><span class="line"></span><br><span class="line">daemonize    yes                               </span><br><span class="line">//redis后台运行</span><br><span class="line"></span><br><span class="line">pidfile  /var/run/redis_7000.pid          </span><br><span class="line">//pidfile文件对应7000,7001,7002,7003,7004,7005</span><br><span class="line"></span><br><span class="line">cluster-enabled  yes                           </span><br><span class="line">//开启集群  把注释#去掉</span><br><span class="line"></span><br><span class="line">cluster-config-file  nodes_7000.conf   </span><br><span class="line">//集群的配置  配置文件首次启动自动生成 7000,7001,7002</span><br><span class="line"></span><br><span class="line">cluster-node-timeout  15000                </span><br><span class="line">//请求超时  默认15秒，可自行设置</span><br><span class="line"></span><br><span class="line">appendonly  yes                           </span><br><span class="line">//aof日志开启  有需要就开启，它会每次写操作都记录一条日志</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="启动各节点"><a href="#启动各节点" class="headerlink" title="启动各节点"></a>启动各节点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis-cluster]# cd /usr/local/bin/</span><br><span class="line">[root@localhost bin]# redis-server /redis-cluster/7000/redis.conf</span><br><span class="line">[root@localhost bin]# redis-server /redis-cluster/7001/redis.conf</span><br><span class="line">[root@localhost bin]# redis-server /redis-cluster/7002/redis.conf</span><br><span class="line">[root@localhost bin]# redis-server /redis-cluster/7003/redis.conf</span><br><span class="line">[root@localhost bin]# redis-server /redis-cluster/7004/redis.conf</span><br><span class="line">[root@localhost bin]# redis-server /redis-cluster/7005/redis.conf</span><br></pre></td></tr></table></figure>
+<p>每个节点启动成功之后显示如下信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2002:C 09 Jul 2019 10:09:37.373 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span><br><span class="line">2002:C 09 Jul 2019 10:09:37.374 # Redis version=5.0.4, bits=64, commit=00000000, modified=0, pid=2002, just started</span><br><span class="line">2002:C 09 Jul 2019 10:09:37.374 # Configuration loaded</span><br></pre></td></tr></table></figure>
+<h2 id="检查redis启动情况"><a href="#检查redis启动情况" class="headerlink" title="检查redis启动情况"></a>检查redis启动情况</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# ps -ef|grep redis</span><br><span class="line">root      2003     1  0 10:09 ?        00:00:03 redis-server 0.0.0.0:7000 [cluster]</span><br><span class="line">root      2008     1  0 10:09 ?        00:00:03 redis-server 0.0.0.0:7001 [cluster]</span><br><span class="line">root      2014     1  0 10:09 ?        00:00:03 redis-server 0.0.0.0:7002 [cluster]</span><br><span class="line">root     19567     1  0 10:37 ?        00:00:01 redis-server 0.0.0.0:7003 [cluster]</span><br><span class="line">root     19575     1  0 10:37 ?        00:00:01 redis-server 0.0.0.0:7004 [cluster]</span><br><span class="line">root     19582     1  0 10:37 ?        00:00:01 redis-server 0.0.0.0:7005 [cluster]</span><br><span class="line">root     20314  1946  0 10:52 pts/1    00:00:00 grep --color=auto redis</span><br><span class="line"></span><br><span class="line">[root@localhost bin]# netstat -tnlp|grep redis</span><br><span class="line">tcp        0      0 0.0.0.0:7004            0.0.0.0:*               LISTEN      19575/redis-server</span><br><span class="line">tcp        0      0 0.0.0.0:7005            0.0.0.0:*               LISTEN      19582/redis-server</span><br><span class="line">tcp        0      0 0.0.0.0:17000           0.0.0.0:*               LISTEN      2003/redis-server 0</span><br><span class="line">tcp        0      0 0.0.0.0:17001           0.0.0.0:*               LISTEN      2008/redis-server 0</span><br><span class="line">tcp        0      0 0.0.0.0:17002           0.0.0.0:*               LISTEN      2014/redis-server 0</span><br><span class="line">tcp        0      0 0.0.0.0:17003           0.0.0.0:*               LISTEN      19567/redis-server</span><br><span class="line">tcp        0      0 0.0.0.0:17004           0.0.0.0:*               LISTEN      19575/redis-server</span><br><span class="line">tcp        0      0 0.0.0.0:17005           0.0.0.0:*               LISTEN      19582/redis-server</span><br><span class="line">tcp        0      0 0.0.0.0:7000            0.0.0.0:*               LISTEN      2003/redis-server 0</span><br><span class="line">tcp        0      0 0.0.0.0:7001            0.0.0.0:*               LISTEN      2008/redis-server 0</span><br><span class="line">tcp        0      0 0.0.0.0:7002            0.0.0.0:*               LISTEN      2014/redis-server 0</span><br><span class="line">tcp        0      0 0.0.0.0:7003            0.0.0.0:*               LISTEN      19567/redis-server</span><br></pre></td></tr></table></figure>
+<h2 id="安装ruby"><a href="#安装ruby" class="headerlink" title="安装ruby"></a>安装ruby</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# yum -y install ruby ruby-devel rubygems rpm-build</span><br><span class="line">[root@localhost bin]# gem install redis</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：当运行gem install redis出现以下类似信息，说明ruby版本过低,需要手动升级版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; Fetching: redis-4.1.2.gem (100%)</span><br><span class="line">&gt; ERROR:  Error installing redis:</span><br><span class="line">&gt;         redis requires Ruby version &gt;= 2.3.0</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="升级ruby（如果ruby版本过低，执行此步骤）"><a href="#升级ruby（如果ruby版本过低，执行此步骤）" class="headerlink" title="升级ruby（如果ruby版本过低，执行此步骤）"></a>升级ruby（如果ruby版本过低，执行此步骤）</h2><ul>
+<li><p><strong>安装RVM</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB</span><br><span class="line">[root@localhost bin]# curl -L get.rvm.io | bash -s stable</span><br><span class="line">[root@localhost bin]# find / -name rvm -print</span><br><span class="line">/usr/local/rvm</span><br><span class="line">/usr/local/rvm/src/rvm</span><br><span class="line">/usr/local/rvm/src/rvm/bin/rvm</span><br><span class="line">/usr/local/rvm/src/rvm/lib/rvm</span><br><span class="line">/usr/local/rvm/src/rvm/scripts/rvm</span><br><span class="line">/usr/local/rvm/bin/rvm</span><br><span class="line">/usr/local/rvm/lib/rvm</span><br><span class="line">/usr/local/rvm/scripts/rvm</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# source /usr/local/rvm/scripts/rvm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看rvm库中已知的ruby版本</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# rvm list known</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>安装一个ruby版本</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# rvm install 2.3.3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>使用一个ruby版本</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# rvm use 2.3.3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>设置默认版本</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# rvm use 2.3.3 --default</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>卸载一个已知版本</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rvm remove 2.0.0</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>再次安装redis</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# gem install redis</span><br><span class="line">Fetching redis-4.1.2.gem</span><br><span class="line">Successfully installed redis-4.1.2</span><br><span class="line">Parsing documentation for redis-4.1.2</span><br><span class="line">Installing ri documentation for redis-4.1.2</span><br><span class="line">Done installing documentation for redis after 2 seconds</span><br><span class="line">1 gem installed</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="创建集群"><a href="#创建集群" class="headerlink" title="创建集群"></a>创建集群</h2>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# redis-cli --cluster create 192.168.1.138:7000 192.168.1.138:7001 192.168.1.138:7002 192.168.1.138:7003 192.168.1.138:7004 192.168.1.138:7005 --cluster-replicas 1</span><br><span class="line">&gt;&gt;&gt; Performing hash slots allocation on 6 nodes...</span><br><span class="line">Master[0] -&gt; Slots 0 - 5460</span><br><span class="line">Master[1] -&gt; Slots 5461 - 10922</span><br><span class="line">Master[2] -&gt; Slots 10923 - 16383</span><br><span class="line">Adding replica 192.168.1.138:7004 to 192.168.1.138:7000</span><br><span class="line">Adding replica 192.168.1.138:7005 to 192.168.1.138:7001</span><br><span class="line">Adding replica 192.168.1.138:7003 to 192.168.1.138:7002</span><br><span class="line">&gt;&gt;&gt; Trying to optimize slaves allocation for anti-affinity</span><br><span class="line">[WARNING] Some slaves are in the same host as their master</span><br><span class="line">M: 7da3ac110691ea9a7c188eac14067512285d2de2 192.168.1.138:7000</span><br><span class="line">   slots:[0-5460] (5461 slots) master</span><br><span class="line">M: d3285c16dd1d7e4557976349cc47de6c09ffabd4 192.168.1.138:7001</span><br><span class="line">   slots:[5461-10922] (5462 slots) master</span><br><span class="line">M: 4ba9babdfb31976e74574e79e200b91d995ccc21 192.168.1.138:7002</span><br><span class="line">   slots:[10923-16383] (5461 slots) master</span><br><span class="line">S: 0015185c60ef3c029a323b1fd7ab11f4ffacd66e 192.168.1.138:7003</span><br><span class="line">   replicates d3285c16dd1d7e4557976349cc47de6c09ffabd4</span><br><span class="line">S: 8b2e59376a9d90359b123d28fc978448d01233a3 192.168.1.138:7004</span><br><span class="line">   replicates 4ba9babdfb31976e74574e79e200b91d995ccc21</span><br><span class="line">S: 47f96a39880e465e046bf9e624f4d5cdcb824ede 192.168.1.138:7005</span><br><span class="line">   replicates 7da3ac110691ea9a7c188eac14067512285d2de2</span><br><span class="line">Can I set the above configuration? (type &apos;yes&apos; to accept):</span><br></pre></td></tr></table></figure>
+<p>  输入 yes 即可，然后出现如下内容，说明安装成功。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Nodes configuration updated</span><br><span class="line">&gt;&gt;&gt; Assign a different config epoch to each node</span><br><span class="line">&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster</span><br><span class="line">Waiting for the cluster to join</span><br><span class="line">.</span><br><span class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.1.138:7000)</span><br><span class="line">M: 7da3ac110691ea9a7c188eac14067512285d2de2 192.168.1.138:7000</span><br><span class="line">   slots:[0-5460] (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">M: d3285c16dd1d7e4557976349cc47de6c09ffabd4 192.168.1.138:7001</span><br><span class="line">   slots:[5461-10922] (5462 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 0015185c60ef3c029a323b1fd7ab11f4ffacd66e 192.168.1.138:7003</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates d3285c16dd1d7e4557976349cc47de6c09ffabd4</span><br><span class="line">M: 4ba9babdfb31976e74574e79e200b91d995ccc21 192.168.1.138:7002</span><br><span class="line">   slots:[10923-16383] (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 47f96a39880e465e046bf9e624f4d5cdcb824ede 192.168.1.138:7005</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 7da3ac110691ea9a7c188eac14067512285d2de2</span><br><span class="line">S: 8b2e59376a9d90359b123d28fc978448d01233a3 192.168.1.138:7004</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 4ba9babdfb31976e74574e79e200b91d995ccc21</span><br><span class="line">[OK] All nodes agree about slots configuration.</span><br><span class="line">&gt;&gt;&gt; Check for open slots...</span><br><span class="line">&gt;&gt;&gt; Check slots coverage...</span><br><span class="line">[OK] All 16384 slots covered.</span><br></pre></td></tr></table></figure>
+<h2 id="开启端口"><a href="#开启端口" class="headerlink" title="开启端口"></a>开启端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7000/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7001/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7002/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7003/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7004/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7005/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17005/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17004/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17003/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17002/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17001/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17000/tcp --permanent</span><br><span class="line">success</span><br></pre></td></tr></table></figure>
+<p>开启之后重启防火墙</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/如何将web项目部署到w服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/23/如何将web项目部署到w服务器/" itemprop="url">如何将web项目部署到linux服务器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T15:57:50+08:00">
+                2019-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/23/如何将web项目部署到w服务器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/23/如何将web项目部署到w服务器/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/06/23/如何将web项目部署到w服务器/" class="leancloud_visitors" data-flag-title="如何将web项目部署到linux服务器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文档意在让开发人员掌握如何将本地项目发包至远程服务器</p>
+<h2 id="下载远程工具-如-MobaXterm"><a href="#下载远程工具-如-MobaXterm" class="headerlink" title="下载远程工具(如:MobaXterm)"></a>下载远程工具(如:MobaXterm)</h2><p>MobaXterm下载地址：<a href="https://mobaxterm.mobatek.net/download-home-edition.html" target="_blank" rel="noopener">https://mobaxterm.mobatek.net/download-home-edition.html</a></p>
+<h2 id="连接到开发测试服务器"><a href="#连接到开发测试服务器" class="headerlink" title="连接到开发测试服务器"></a>连接到开发测试服务器</h2><ul>
+<li><strong>服务器地址</strong>：172.16.100.201</li>
+<li><strong>户名/密码</strong>：root/root<blockquote>
+<p>注意：这是开发服务器地址，如果想远程其他服务器，请自行更改地址以及账密</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="结束进程-停掉Tomcat"><a href="#结束进程-停掉Tomcat" class="headerlink" title="结束进程(停掉Tomcat)"></a><span id="jump">结束进程(停掉Tomcat)</span></h2><ul>
+<li><strong>查询进程</strong>：ps -ef|grep java</li>
+<li><strong>杀死进程</strong>：kill -9 pid<blockquote>
+<p>注意：pid是你要杀死的进程id</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="进入tomcat目录"><a href="#进入tomcat目录" class="headerlink" title="进入tomcat目录"></a>进入tomcat目录</h2><p>两种方式到tomcat目录下：</p>
+<ul>
+<li><strong>方式一</strong>：cd /opt/platform/tomcat-platform-portal/</li>
+<li><strong>方式二</strong>：pt(自定义的快捷方式，我这里新建了一个shell脚本，脚本内容是配置pt为打开tomcat的快捷操作)</li>
+</ul>
+<h2 id="删除以及更新备份文件"><a href="#删除以及更新备份文件" class="headerlink" title="删除以及更新备份文件"></a>删除以及更新备份文件</h2><ul>
+<li>rm -rf portal-web/</li>
+<li>mv webapps/portal-web/ .<blockquote>
+<p>注意：mv webapps/portal-web/ .命令中”.”与”/“之间有个空格</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="传包到webapps目录下"><a href="#传包到webapps目录下" class="headerlink" title="传包到webapps目录下"></a>传包到webapps目录下</h2><h2 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h2><p>bin/startup.sh</p>
+<h2 id="停掉Tomcat"><a href="#停掉Tomcat" class="headerlink" title="停掉Tomcat"></a>停掉Tomcat</h2><blockquote>
+<p>建议使用结束进程的方式停掉Tomcat,先查询该项目的进程id，再使用kill命令杀死进程，参考<a href="#jump">结束进程</a></p>
+</blockquote>
+<h2 id="删除war包"><a href="#删除war包" class="headerlink" title="删除war包"></a>删除war包</h2><p>rm -f webapps/portal-web.war</p>
+<h2 id="再次启动Tomcat"><a href="#再次启动Tomcat" class="headerlink" title="再次启动Tomcat"></a>再次启动Tomcat</h2><p>bin/startup.sh </p>
+<h2 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h2><p>tail -f logs/catalina.out</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/23/kafka/" itemprop="url">kafka</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T15:52:37+08:00">
+                2019-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/23/kafka/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/23/kafka/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/06/23/kafka/" class="leancloud_visitors" data-flag-title="kafka">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/23/redis/" itemprop="url">redis</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T15:52:15+08:00">
+                2019-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/23/redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/23/redis/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/06/23/redis/" class="leancloud_visitors" data-flag-title="redis">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><p><strong>下载</strong></p>
+<ul>
+<li><p><strong>方法一</strong>： <code>wget redis下载连接</code></p>
+</li>
+<li><p><strong>方法二</strong>： 将下载好的redis包上传到ssh</p>
+</li>
+</ul>
+</li>
+<li><p><strong>解压</strong></p>
+<ul>
+<li><code>tar zxvf redis.tar.gz</code></li>
+</ul>
+</li>
+<li><p><strong>make</strong>：</p>
+<ul>
+<li><code>make</code></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/Linux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -405,7 +1091,7 @@
 <ul>
 <li><strong>给文件加最高权限</strong>：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chmod 775 filename</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chmod 777 filename</span><br></pre></td></tr></table></figure>
 <ul>
 <li><strong>查看centos版本</strong>：</li>
 </ul>
@@ -437,147 +1123,6 @@
 <ul>
 <li><strong>将文件的最后20行输出到设备</strong>：<br><code>tail -n 20 log.txt</code></li>
 </ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/你好，Hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanzhengWu">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/dog.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Whz's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/16/你好，Hexo/" itemprop="url">你好，Hexo</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-16T10:12:18+08:00">
-                2019-06-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/16/你好，Hexo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/16/你好，Hexo/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/06/16/你好，Hexo/" class="leancloud_visitors" data-flag-title="你好，Hexo">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>使用Hexo,是非常简单的一件事。测试文本</p>
 
           
         
@@ -661,7 +1206,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
