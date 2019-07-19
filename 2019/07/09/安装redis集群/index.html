@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Whz&#39;s blog">
 <meta property="og:description" content="[TOC] 上传压缩包将redis-5.0.4.tar.gz压缩包上传到opt目录下 解压12[root@localhost ~]# cd /opt/[root@localhost opt]# tar -zxvf redis-5.0.4 安装gcc gcc-c++1[root@localhost opt]# yum install gcc gcc‐c++ libstdc++‐devel 编译安装">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-09T13:59:32.835Z">
+<meta property="og:updated_time" content="2019-07-19T13:34:15.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安装redis集群">
 <meta name="twitter:description" content="[TOC] 上传压缩包将redis-5.0.4.tar.gz压缩包上传到opt目录下 解压12[root@localhost ~]# cd /opt/[root@localhost opt]# tar -zxvf redis-5.0.4 安装gcc gcc-c++1[root@localhost opt]# yum install gcc gcc‐c++ libstdc++‐devel 编译安装">
@@ -440,7 +440,7 @@
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Nodes configuration updated</span><br><span class="line">&gt;&gt;&gt; Assign a different config epoch to each node</span><br><span class="line">&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster</span><br><span class="line">Waiting for the cluster to join</span><br><span class="line">.</span><br><span class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.1.138:7000)</span><br><span class="line">M: 7da3ac110691ea9a7c188eac14067512285d2de2 192.168.1.138:7000</span><br><span class="line">   slots:[0-5460] (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">M: d3285c16dd1d7e4557976349cc47de6c09ffabd4 192.168.1.138:7001</span><br><span class="line">   slots:[5461-10922] (5462 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 0015185c60ef3c029a323b1fd7ab11f4ffacd66e 192.168.1.138:7003</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates d3285c16dd1d7e4557976349cc47de6c09ffabd4</span><br><span class="line">M: 4ba9babdfb31976e74574e79e200b91d995ccc21 192.168.1.138:7002</span><br><span class="line">   slots:[10923-16383] (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 47f96a39880e465e046bf9e624f4d5cdcb824ede 192.168.1.138:7005</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 7da3ac110691ea9a7c188eac14067512285d2de2</span><br><span class="line">S: 8b2e59376a9d90359b123d28fc978448d01233a3 192.168.1.138:7004</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 4ba9babdfb31976e74574e79e200b91d995ccc21</span><br><span class="line">[OK] All nodes agree about slots configuration.</span><br><span class="line">&gt;&gt;&gt; Check for open slots...</span><br><span class="line">&gt;&gt;&gt; Check slots coverage...</span><br><span class="line">[OK] All 16384 slots covered.</span><br></pre></td></tr></table></figure>
 <h2 id="开启端口"><a href="#开启端口" class="headerlink" title="开启端口"></a>开启端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7000/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7001/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7002/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7003/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7004/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7005/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17005/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17004/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17003/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17002/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17001/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17000/tcp --permanent</span><br><span class="line">success</span><br></pre></td></tr></table></figure>
 <p>开启之后重启防火墙</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# firewall-cmd --reload</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -465,7 +465,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/23/如何将web项目部署到w服务器/" rel="next" title="如何将web项目部署到linux服务器">
+              <a href="/2019/06/23/如何将web项目部署到服务器/" rel="next" title="如何将web项目部署到linux服务器">
                 <i class="fa fa-chevron-left"></i> 如何将web项目部署到linux服务器
               </a>
             
@@ -474,6 +474,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/19/安装部署kafka/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -562,7 +566,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

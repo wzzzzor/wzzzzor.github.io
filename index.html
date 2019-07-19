@@ -282,6 +282,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/19/安装部署kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/19/安装部署kafka/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-19T21:35:50+08:00">
+                2019-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/19/安装部署kafka/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/07/19/安装部署kafka/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/07/19/安装部署kafka/" class="leancloud_visitors" data-flag-title>
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Kafka安装部署"><a href="#Kafka安装部署" class="headerlink" title="Kafka安装部署"></a>Kafka安装部署</h1><p>[TOC]</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
+<li><p><strong>操作系统</strong>：centos</p>
+</li>
+<li><p><strong>kafka版本</strong>：kafka_2.12-2.2.1      —-<a href="http://kafka.apache.org/downloads.html" target="_blank" rel="noopener">下载地址</a></p>
+</li>
+<li><p><strong>jdk</strong>：jdk1.8.0_111</p>
+</li>
+</ul>
+<h2 id="下载及压缩"><a href="#下载及压缩" class="headerlink" title="下载及压缩"></a>下载及压缩</h2><ul>
+<li><p><strong>下载</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -L -O https://mirrors.cnnic.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>压缩</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf kafka_2.12-2.3.0.tgz</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a><strong>zookeeper</strong></h2><ul>
+<li><p><strong>下载zookeeper</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -L -O http://apache.fayea.com/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>解压</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf zookeeper-3.4.14.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>设置环境变量</strong></p>
+<ul>
+<li><strong>进入编辑</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/profile</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>然后输入下述内容</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/opt/java/jdk1.8.0_111/</span><br><span class="line">ZOOKEEPER_HOME=/opt/zookeeper-3.4.14/</span><br><span class="line">PATH=$JAVA_HOME/bin:$ZOOKEEPER_HOME/bin:$PATH</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$ZOOKEEPER_HOME/lib:</span><br><span class="line">export ZOOKEEPER_HOME</span><br><span class="line">export JAVA_HOME</span><br><span class="line">export PATH</span><br><span class="line">export CLASSPATH</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>保存环境变量配置</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ source /etc/profile</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>配置</strong></p>
+<p>配置文件放在$ZOOKEEPER_HOME/conf/目录下，将zoo_sample.cfd文件名称改为zoo.cfg</p>
+</li>
+<li><p><strong>启动zookeeper</strong></p>
+<p>启动脚本在$ZOOKEEPER_HOME/bin/目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./bin/zkServer.sh start</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -tunlp|grep 2181 #查看zookeeper端口</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="配置kafka"><a href="#配置kafka" class="headerlink" title="配置kafka"></a>配置kafka</h2><ul>
+<li><p><strong>配置server.properties</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">broker.id=0</span><br><span class="line">num.network.threads=2</span><br><span class="line">num.io.threads=8</span><br><span class="line">socket.send.buffer.bytes=1048576</span><br><span class="line">socket.receive.buffer.bytes=1048576</span><br><span class="line">socket.request.max.bytes=104857600</span><br><span class="line">log.dirs=/tmp/kafka-logs</span><br><span class="line">num.partitions=2</span><br><span class="line">log.retention.hours=168</span><br><span class="line"> </span><br><span class="line">log.segment.bytes=536870912</span><br><span class="line">log.retention.check.interval.ms=60000</span><br><span class="line">log.cleaner.enable=false</span><br><span class="line"> </span><br><span class="line">zookeeper.connect=localhost:2181</span><br><span class="line">zookeeper.connection.timeout.ms=1000000</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/lizhitao/article/details/25667831" target="_blank" rel="noopener">参考原博</a></p>
+</li>
+</ul>
+<h2 id="启动kafka"><a href="#启动kafka" class="headerlink" title="启动kafka"></a>启动kafka</h2><ul>
+<li><p><strong>启动命令</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost kafka_2.12-2.2.0]# ./bin/kafka-server-start.sh daemon ./config/server.properties &amp;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><strong>检测端口</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -tunlp|egrep &quot;(2181|9092)&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/09/安装redis集群/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -444,7 +649,7 @@
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Nodes configuration updated</span><br><span class="line">&gt;&gt;&gt; Assign a different config epoch to each node</span><br><span class="line">&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster</span><br><span class="line">Waiting for the cluster to join</span><br><span class="line">.</span><br><span class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.1.138:7000)</span><br><span class="line">M: 7da3ac110691ea9a7c188eac14067512285d2de2 192.168.1.138:7000</span><br><span class="line">   slots:[0-5460] (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">M: d3285c16dd1d7e4557976349cc47de6c09ffabd4 192.168.1.138:7001</span><br><span class="line">   slots:[5461-10922] (5462 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 0015185c60ef3c029a323b1fd7ab11f4ffacd66e 192.168.1.138:7003</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates d3285c16dd1d7e4557976349cc47de6c09ffabd4</span><br><span class="line">M: 4ba9babdfb31976e74574e79e200b91d995ccc21 192.168.1.138:7002</span><br><span class="line">   slots:[10923-16383] (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 47f96a39880e465e046bf9e624f4d5cdcb824ede 192.168.1.138:7005</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 7da3ac110691ea9a7c188eac14067512285d2de2</span><br><span class="line">S: 8b2e59376a9d90359b123d28fc978448d01233a3 192.168.1.138:7004</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 4ba9babdfb31976e74574e79e200b91d995ccc21</span><br><span class="line">[OK] All nodes agree about slots configuration.</span><br><span class="line">&gt;&gt;&gt; Check for open slots...</span><br><span class="line">&gt;&gt;&gt; Check slots coverage...</span><br><span class="line">[OK] All 16384 slots covered.</span><br></pre></td></tr></table></figure>
 <h2 id="开启端口"><a href="#开启端口" class="headerlink" title="开启端口"></a>开启端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7000/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7001/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7002/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7003/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7004/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=7005/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17005/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17004/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17003/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17002/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17001/tcp --permanent</span><br><span class="line">success</span><br><span class="line">[root@localhost bin]# firewall-cmd --zone=public --add-port=17000/tcp --permanent</span><br><span class="line">success</span><br></pre></td></tr></table></figure>
 <p>开启之后重启防火墙</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# firewall-cmd --reload</span><br></pre></td></tr></table></figure>
 
           
         
@@ -493,7 +698,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/如何将web项目部署到w服务器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/如何将web项目部署到服务器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanzhengWu">
@@ -512,7 +717,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/23/如何将web项目部署到w服务器/" itemprop="url">如何将web项目部署到linux服务器</a></h1>
+                <a class="post-title-link" href="/2019/06/23/如何将web项目部署到服务器/" itemprop="url">如何将web项目部署到linux服务器</a></h1>
         
 
         <div class="post-meta">
@@ -543,8 +748,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/06/23/如何将web项目部署到w服务器/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/23/如何将web项目部署到w服务器/" itemprop="commentCount"></span>
+                <a href="/2019/06/23/如何将web项目部署到服务器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/23/如何将web项目部署到服务器/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -552,7 +757,7 @@
 
           
           
-             <span id="/2019/06/23/如何将web项目部署到w服务器/" class="leancloud_visitors" data-flag-title="如何将web项目部署到linux服务器">
+             <span id="/2019/06/23/如何将web项目部署到服务器/" class="leancloud_visitors" data-flag-title="如何将web项目部署到linux服务器">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -668,7 +873,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/kafka/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/Linux常用命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanzhengWu">
@@ -687,307 +892,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/23/kafka/" itemprop="url">kafka</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T15:52:37+08:00">
-                2019-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/23/kafka/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/23/kafka/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/06/23/kafka/" class="leancloud_visitors" data-flag-title="kafka">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/redis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanzhengWu">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/dog.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Whz's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/23/redis/" itemprop="url">redis</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T15:52:15+08:00">
-                2019-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/23/redis/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/23/redis/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/06/23/redis/" class="leancloud_visitors" data-flag-title="redis">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
-<li><p><strong>下载</strong></p>
-<ul>
-<li><p><strong>方法一</strong>： <code>wget redis下载连接</code></p>
-</li>
-<li><p><strong>方法二</strong>： 将下载好的redis包上传到ssh</p>
-</li>
-</ul>
-</li>
-<li><p><strong>解压</strong></p>
-<ul>
-<li><code>tar zxvf redis.tar.gz</code></li>
-</ul>
-</li>
-<li><p><strong>make</strong>：</p>
-<ul>
-<li><code>make</code></li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/Linux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanzhengWu">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/dog.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Whz's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/16/Linux/" itemprop="url">Linux</a></h1>
+                <a class="post-title-link" href="/2019/06/16/Linux常用命令/" itemprop="url">Linux</a></h1>
         
 
         <div class="post-meta">
@@ -1018,8 +923,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/06/16/Linux/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/16/Linux/" itemprop="commentCount"></span>
+                <a href="/2019/06/16/Linux常用命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/06/16/Linux常用命令/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1027,7 +932,7 @@
 
           
           
-             <span id="/2019/06/16/Linux/" class="leancloud_visitors" data-flag-title="Linux">
+             <span id="/2019/06/16/Linux常用命令/" class="leancloud_visitors" data-flag-title="Linux">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1206,7 +1111,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
