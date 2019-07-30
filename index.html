@@ -252,6 +252,695 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/30/ORA-28000 帐户已被锁定的解决方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/30/ORA-28000 帐户已被锁定的解决方法/" itemprop="url">ORA-28000 帐户已被锁定的解决方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T22:53:52+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/30/ORA-28000 帐户已被锁定的解决方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/07/30/ORA-28000 帐户已被锁定的解决方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/07/30/ORA-28000 帐户已被锁定的解决方法/" class="leancloud_visitors" data-flag-title="ORA-28000 帐户已被锁定的解决方法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="文图描述"><a href="#文图描述" class="headerlink" title="文图描述"></a>文图描述</h2><p>应用监控程序报警ORA-28000，PL/SQL无法登陆数据库</p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>oracle11g中默认在default概要文件中设置了 “FAILED_LOGIN_ATTEMPTS=10次”，当输入密码错误次数达到设置值将导致此，该用户会自动锁住。</p>
+<h2 id="问题处理"><a href="#问题处理" class="headerlink" title="问题处理"></a>问题处理</h2><p>1、以<code>SYSDBA</code>的连接方式，<code>system</code>用户登录</p>
+<p>2、查看xxx用户锁</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> username,account_status <span class="keyword">from</span> dba_users <span class="keyword">where</span> username=<span class="string">'xxx'</span>;，查看到用户锁了</span><br></pre></td></tr></table></figure>
+<p>3、解锁xxx用户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> PLATFORM_PORTAL_SERVICE <span class="keyword">account</span> <span class="keyword">unlock</span></span><br></pre></td></tr></table></figure>
+<p>4、查看用户限制登陆次数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_profiles <span class="keyword">where</span> RESOURCE_NAME=<span class="string">'FAILED_LOGIN_ATTEMPTS'</span>;</span><br></pre></td></tr></table></figure>
+<p>5、修改用户无论输入多少次都不会被锁定</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> profile <span class="keyword">default</span> <span class="keyword">limit</span> <span class="keyword">failed_login_attempts</span> <span class="keyword">unlimited</span>;</span><br></pre></td></tr></table></figure>
+<p>6、解除密码限制</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">USER</span> xxx <span class="keyword">identified</span> <span class="keyword">by</span> <span class="keyword">password</span> <span class="keyword">account</span> <span class="keyword">unlock</span>;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/21/如何强制终止window进程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/21/如何强制终止window进程/" itemprop="url">如何强制终止window进程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-21T09:55:02+08:00">
+                2019-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/21/如何强制终止window进程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/07/21/如何强制终止window进程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/07/21/如何强制终止window进程/" class="leancloud_visitors" data-flag-title="如何强制终止window进程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="强制终止8080端口"><a href="#强制终止8080端口" class="headerlink" title="强制终止8080端口"></a>强制终止8080端口</h2><ul>
+<li>找到8080端口的进程id</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CMD&gt;netstat -ano | findstr 8080</span><br></pre></td></tr></table></figure>
+<ul>
+<li>kil掉这个进程</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CMD&gt;taskkill /F /PID 1234</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>1234为查出来的进程id</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/20/创建单线程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/20/创建单线程/" itemprop="url">创建单线程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-20T08:53:52+08:00">
+                2019-07-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/20/创建单线程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/07/20/创建单线程/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/07/20/创建单线程/" class="leancloud_visitors" data-flag-title="创建单线程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="创建单线程的几种方式"><a href="#创建单线程的几种方式" class="headerlink" title="创建单线程的几种方式"></a>创建单线程的几种方式</h2><ul>
+<li><p>方式一</p>
+<ul>
+<li><p>将任务代码移到实现了Runnable接口的类的run的方法中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class MyRunnable implements Runnable&#123;</span><br><span class="line">	public void run()&#123;</span><br><span class="line">		task code</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个类对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyRunnable r = new MyRunnable();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>由MyRunnable创建一个Thread对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread t = new Thread(r);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动线程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>方式二</p>
+</li>
+</ul>
+<p>  也可以通过构建一个Thread类的子类定义一个线程</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class MyThread extends Thread&#123;</span><br><span class="line">	public void run()&#123;</span><br><span class="line">		task code;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyThread t = new MyThread();</span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+</code></pre><blockquote>
+<p>注意：此方法已经不被推荐。应该从运行机制上减少需要并行运行的任务数量。如果有很多任务，要为每个人物创建一个独立的线程所付出的代价过大。可以使用线程池来解决这个问题。</p>
+</blockquote>
+<blockquote>
+<p>不要调用Thread类或Runnable对象的run方法。直接调用run方法，只会执行同一个线程中的任务，而不会启动新线程。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/19/jQuery笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanzhengWu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/dog.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Whz's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/19/jQuery笔记/" itemprop="url">jQuery笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-19T22:57:50+08:00">
+                2019-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/19/jQuery笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/07/19/jQuery笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/07/19/jQuery笔记/" class="leancloud_visitors" data-flag-title="jQuery笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文档主要总结在工作中遇到的前端js问题</p>
+<hr>
+<h2 id="attr和prop"><a href="#attr和prop" class="headerlink" title="attr和prop"></a>attr和prop</h2><blockquote>
+<p>prop是jQuery1.6开始新增的一个方法 </p>
+</blockquote>
+<p>根据官方建议，具有true和false两个属性的属性，如checked，selected，disabled使用prop()，其他的用attr()<br>–[详情]<a href="http://wenzhixin.net.cn/2013/05/24/jquery_attr_prop" target="_blank" rel="noopener">http://wenzhixin.net.cn/2013/05/24/jquery_attr_prop</a></p>
+<h2 id="resise"><a href="#resise" class="headerlink" title="resise()"></a>resise()</h2><p>调整浏览器窗口大小</p>
+<h2 id="innerHeight"><a href="#innerHeight" class="headerlink" title="innerHeight()"></a>innerHeight()</h2><p>返回元素的内部高度</p>
+<h2 id="ztree的异步加载"><a href="#ztree的异步加载" class="headerlink" title="ztree的异步加载"></a>ztree的异步加载</h2><h2 id="严格模式-‘use-strict’"><a href="#严格模式-‘use-strict’" class="headerlink" title="严格模式(‘use strict’)"></a>严格模式(‘use strict’)</h2><ul>
+<li><p>其目的有以下几个：</p>
+<ol>
+<li>消除JavaScript语法的不严谨和一些不合理之处，减少一些怪异行为</li>
+<li>消除代码运行的不安全之处，保证代码的运行安全。</li>
+<li>提高编译器的效率，增加编译速度。</li>
+<li>为未来新版本的JavaScript做好铺垫。</li>
+</ol>
+</li>
+<li><p>同样的代码在严格模式下可能会有不一样的运行结果，一些在正常模式下可以运行的代码语句，在严格模式下可能将不能运行，掌握这些内容将有助于更细致深入的了解javascript，提升代码水平。</p>
+</li>
+<li><p>进入标志就是 “use strict”;老版本那些不支持的浏览器会把他当做一串普通的字符串处理。</p>
+</li>
+<li><p>有两种调用方法：</p>
+<blockquote>
+</blockquote>
+<ol>
+<li>针对整个脚本文件，放在脚本文件的第一行。</li>
+<li>针对单个函数，将”use strict”放在函数体的第一行，则整个函数以“严格模式”运行。</li>
+<li>由于第一种方法不利于文件合并，所以更好的做法是借用第二种方法，将整个脚本文件放在一个立即执行的匿名函数当中。</li>
+</ol>
+</li>
+<li><p>严格模式对javascript的语法和行为都做了一些改变：</p>
+<blockquote>
+</blockquote>
+<ol>
+<li>全局变量要显示的声明，否则会报错；必须先声明变量然后再使用。</li>
+<li>静态绑定：<br>a）：禁止使用with语句<br>b）：正常模式下javascript语言有两种作用域（scope），即全局作用域和函数作用域。严格模式创建了第三种作用域，eval作用域。正常模式下，eval语句的作用域取决于它本身是处在全局作用域还是函数作用域。严格模式下eval本身就是一个作用域，不在能够生成全局变量了，他所生成的变量只能用于自身内部。</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li><p>增强的安全措施：</p>
+<ol>
+<li>禁止this关键字指向全局对象。</li>
+<li>禁止在函数内部遍历调用栈。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">        　function f1()&#123;</span><br><span class="line">      &quot; use strict&quot;;</span><br><span class="line">        f1.caller; //报错</span><br><span class="line">         f1.arguments; //报错</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>禁止删除变量：严格模式下将不能删除变量，只有configurable设置为true的才能删除。</p>
+</li>
+<li><p>显式报错</p>
+</li>
+<li><p>重名错误：</p>
+<blockquote>
+</blockquote>
+<ol>
+<li>对象不能有重名的属性</li>
+<li>函数不能有重名的函数</li>
+</ol>
+</li>
+<li><p>禁止八进制表示法</p>
+</li>
+<li><p>arguments的限制：</p>
+</li>
+</ul>
+<blockquote>
+</blockquote>
+<pre><code>1.不允许对arguments进行赋值。
+2. 不再追踪参数的变化。
+3. 禁止使用arguments.callee,无法在匿名函数内部调用自身了
+</code></pre><ul>
+<li><p>函数必须声明在顶层</p>
+</li>
+<li><p>增加了一些保留字，用这些保留字命名变量将会报错</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/19/kafka常用命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1261,7 +1950,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1274,7 +1963,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
