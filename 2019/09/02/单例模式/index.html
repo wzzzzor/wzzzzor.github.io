@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据库,">
+  <meta name="keywords" content="设计模式,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="文图描述应用监控程序报警ORA-28000，PL/SQL无法登陆数据库 问题分析oracle11g中默认在default概要文件中设置了 “FAILED_LOGIN_ATTEMPTS=10次”，当输入密码错误次数达到设置值将导致此，该用户会自动锁住。 问题处理1、以SYSDBA的连接方式，system用户登录 2、查看xxx用户锁 1select username,account_status f">
-<meta name="keywords" content="数据库">
+<meta name="description" content="定义单件模式（单例模式）确保一个类只有一个实例，并提供一个全局访问点 实现方法 方法一 如果getInstance()的性能对应用程序不是很关键，就什么都别做 1234567891011121314public class Singleton &amp;#123;    private static Singleton uniqueSingleton;    private Singleton()&amp;#12">
+<meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ORA-28000 帐户已被锁定的解决方法">
-<meta property="og:url" content="http://yoursite.com/2019/07/30/ORA-28000 帐户已被锁定的解决方法/index.html">
+<meta property="og:title" content="单件模式">
+<meta property="og:url" content="http://yoursite.com/2019/09/02/单例模式/index.html">
 <meta property="og:site_name" content="Whz&#39;s blog">
-<meta property="og:description" content="文图描述应用监控程序报警ORA-28000，PL/SQL无法登陆数据库 问题分析oracle11g中默认在default概要文件中设置了 “FAILED_LOGIN_ATTEMPTS=10次”，当输入密码错误次数达到设置值将导致此，该用户会自动锁住。 问题处理1、以SYSDBA的连接方式，system用户登录 2、查看xxx用户锁 1select username,account_status f">
+<meta property="og:description" content="定义单件模式（单例模式）确保一个类只有一个实例，并提供一个全局访问点 实现方法 方法一 如果getInstance()的性能对应用程序不是很关键，就什么都别做 1234567891011121314public class Singleton &amp;#123;    private static Singleton uniqueSingleton;    private Singleton()&amp;#12">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-30T14:23:26.014Z">
+<meta property="og:updated_time" content="2019-09-02T15:45:32.999Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ORA-28000 帐户已被锁定的解决方法">
-<meta name="twitter:description" content="文图描述应用监控程序报警ORA-28000，PL/SQL无法登陆数据库 问题分析oracle11g中默认在default概要文件中设置了 “FAILED_LOGIN_ATTEMPTS=10次”，当输入密码错误次数达到设置值将导致此，该用户会自动锁住。 问题处理1、以SYSDBA的连接方式，system用户登录 2、查看xxx用户锁 1select username,account_status f">
+<meta name="twitter:title" content="单件模式">
+<meta name="twitter:description" content="定义单件模式（单例模式）确保一个类只有一个实例，并提供一个全局访问点 实现方法 方法一 如果getInstance()的性能对应用程序不是很关键，就什么都别做 1234567891011121314public class Singleton &amp;#123;    private static Singleton uniqueSingleton;    private Singleton()&amp;#12">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/30/ORA-28000 帐户已被锁定的解决方法/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/02/单例模式/">
 
 
 
 
 
-  <title>ORA-28000 帐户已被锁定的解决方法 | Whz's blog</title>
+  <title>单件模式 | Whz's blog</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/30/ORA-28000 帐户已被锁定的解决方法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/单例模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanzhengWu">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ORA-28000 帐户已被锁定的解决方法</h1>
+          <h1 class="post-title" itemprop="name headline">单件模式</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T22:53:52+08:00">
-                2019-07-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T23:28:04+08:00">
+                2019-09-02
               </time>
             
 
@@ -301,8 +301,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/30/ORA-28000 帐户已被锁定的解决方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/07/30/ORA-28000 帐户已被锁定的解决方法/" itemprop="commentCount"></span>
+                <a href="/2019/09/02/单例模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/02/单例模式/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -310,7 +310,7 @@
 
           
           
-             <span id="/2019/07/30/ORA-28000 帐户已被锁定的解决方法/" class="leancloud_visitors" data-flag-title="ORA-28000 帐户已被锁定的解决方法">
+             <span id="/2019/09/02/单例模式/" class="leancloud_visitors" data-flag-title="单件模式">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -341,19 +341,29 @@
       
 
       
-        <h2 id="文图描述"><a href="#文图描述" class="headerlink" title="文图描述"></a>文图描述</h2><p>应用监控程序报警ORA-28000，PL/SQL无法登陆数据库</p>
-<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>oracle11g中默认在default概要文件中设置了 “FAILED_LOGIN_ATTEMPTS=10次”，当输入密码错误次数达到设置值将导致此，该用户会自动锁住。</p>
-<h2 id="问题处理"><a href="#问题处理" class="headerlink" title="问题处理"></a>问题处理</h2><p>1、以<code>SYSDBA</code>的连接方式，<code>system</code>用户登录</p>
-<p>2、查看xxx用户锁</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> username,account_status <span class="keyword">from</span> dba_users <span class="keyword">where</span> username=<span class="string">'xxx'</span>;，查看到用户锁了</span><br></pre></td></tr></table></figure>
-<p>3、解锁xxx用户</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> PLATFORM_PORTAL_SERVICE <span class="keyword">account</span> <span class="keyword">unlock</span></span><br></pre></td></tr></table></figure>
-<p>4、查看用户限制登陆次数</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_profiles <span class="keyword">where</span> RESOURCE_NAME=<span class="string">'FAILED_LOGIN_ATTEMPTS'</span>;</span><br></pre></td></tr></table></figure>
-<p>5、修改用户无论输入多少次都不会被锁定</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> profile <span class="keyword">default</span> <span class="keyword">limit</span> <span class="keyword">failed_login_attempts</span> <span class="keyword">unlimited</span>;</span><br></pre></td></tr></table></figure>
-<p>6、解除密码限制</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">USER</span> xxx <span class="keyword">identified</span> <span class="keyword">by</span> <span class="keyword">password</span> <span class="keyword">account</span> <span class="keyword">unlock</span>;</span><br></pre></td></tr></table></figure>
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>单件模式（单例模式）确保一个类只有一个实例，并提供一个全局访问点</p>
+<h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><ul>
+<li><p>方法一</p>
+<p>如果getInstance()的性能对应用程序不是很关键，就什么都别做</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton uniqueSingleton;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (uniqueSingleton == <span class="keyword">null</span>)&#123;</span><br><span class="line">            uniqueSingleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> uniqueSingleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二</p>
+<p>在方法一的基础之上加上同步，这样做会影响性能</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton uniqueSingleton;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (uniqueSingleton == <span class="keyword">null</span>)&#123;</span><br><span class="line">            uniqueSingleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> uniqueSingleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>方法三</p>
+<p>使用“急切”的创建实例，而不用延迟实例化的做法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton uniqueSingleton = <span class="keyword">new</span> Singleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> uniqueSingleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>方法四</p>
+<p>用“双重检查加锁”，在getInstance()中减少使用同步</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * volitile关键词确保：当uniqueSingleton变量被初始化成Singleton实例时，</span></span><br><span class="line"><span class="comment">     * 多个线程正确地处理uniqueSingleton变量。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton uniqueSingleton;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//检查实例，如果不存在，就进入同步区域块</span></span><br><span class="line">        <span class="comment">//注意：只有第一次才彻底执行这里的代码</span></span><br><span class="line">        <span class="keyword">if</span> (uniqueSingleton == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class)&#123;</span><br><span class="line">                <span class="comment">//进入区块后，再检查一次。如果仍然是null，才创建实例。</span></span><br><span class="line">                <span class="keyword">if</span> (uniqueSingleton == <span class="keyword">null</span>)&#123;</span><br><span class="line">                    uniqueSingleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> uniqueSingleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
       
     </div>
@@ -371,7 +381,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
           
         </div>
       
@@ -384,8 +394,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/21/如何强制终止window进程/" rel="next" title="如何强制终止window进程">
-                <i class="fa fa-chevron-left"></i> 如何强制终止window进程
+              <a href="/2019/08/24/设计模式/" rel="next" title="设计模式">
+                <i class="fa fa-chevron-left"></i> 设计模式
               </a>
             
           </div>
@@ -393,10 +403,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/04/汉诺塔/" rel="prev" title="汉诺塔">
-                汉诺塔 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -531,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文图描述"><span class="nav-number">1.</span> <span class="nav-text">文图描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题分析"><span class="nav-number">2.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题处理"><span class="nav-number">3.</span> <span class="nav-text">问题处理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方法"><span class="nav-number">2.</span> <span class="nav-text">实现方法</span></a></li></ol></div>
             
 
           </div>
@@ -713,9 +719,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2019/07/30/ORA-28000 帐户已被锁定的解决方法/';
-          this.page.identifier = '2019/07/30/ORA-28000 帐户已被锁定的解决方法/';
-          this.page.title = 'ORA-28000 帐户已被锁定的解决方法';
+          this.page.url = 'http://yoursite.com/2019/09/02/单例模式/';
+          this.page.identifier = '2019/09/02/单例模式/';
+          this.page.title = '单件模式';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://wzzzzor.disqus.com/embed.js';
