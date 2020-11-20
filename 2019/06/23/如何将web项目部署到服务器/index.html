@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Tag: java | wzzzzor&#39;s blog</title>
+  <title>如何将web项目部署到linux服务器 | wzzzzor&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="水本无华，相荡而起涟漪">
-<meta property="og:type" content="website">
-<meta property="og:title" content="wzzzzor&#39;s blog">
-<meta property="og:url" content="http://example.com/tags/java/index.html">
+  <meta name="description" content="本文档意在让开发人员掌握如何将本地项目发包至远程服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何将web项目部署到linux服务器">
+<meta property="og:url" content="http://example.com/2019/06/23/%E5%A6%82%E4%BD%95%E5%B0%86web%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
 <meta property="og:site_name" content="wzzzzor&#39;s blog">
-<meta property="og:description" content="水本无华，相荡而起涟漪">
+<meta property="og:description" content="本文档意在让开发人员掌握如何将本地项目发包至远程服务器">
 <meta property="og:locale">
+<meta property="article:published_time" content="2019-06-23T07:57:50.000Z">
+<meta property="article:modified_time" content="2020-11-20T09:15:43.391Z">
 <meta property="article:author" content="wzzzzor">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="wzzzzor&#39;s blog" type="application/atom+xml">
@@ -140,158 +144,233 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-如何将web项目部署到服务器" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/11/20/idea%E5%AF%BC%E5%85%A5%E5%A4%96%E9%83%A8%E4%BE%9D%E8%B5%96%E5%8C%85/" class="archive-article-date">
-  	<time datetime="2020-11-20T07:48:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-20</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/11/20/idea%E5%AF%BC%E5%85%A5%E5%A4%96%E9%83%A8%E4%BE%9D%E8%B5%96%E5%8C%85/">idea导入外部依赖包</a>
+    <h1 class="article-title" itemprop="name">
+      如何将web项目部署到linux服务器
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/06/23/%E5%A6%82%E4%BD%95%E5%B0%86web%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2019-06-23T07:57:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文档意在让开发人员掌握如何将本地项目发包至远程服务器</p>
+<a id="more"></a>
+
+
+
+<h2 id="下载远程工具-如-MobaXterm"><a href="#下载远程工具-如-MobaXterm" class="headerlink" title="下载远程工具(如:MobaXterm)"></a>下载远程工具(如:MobaXterm)</h2><p>MobaXterm下载地址：<a target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/download-home-edition.html">https://mobaxterm.mobatek.net/download-home-edition.html</a></p>
+<h2 id="连接到开发测试服务器"><a href="#连接到开发测试服务器" class="headerlink" title="连接到开发测试服务器"></a>连接到开发测试服务器</h2><ul>
+<li><strong>服务器地址</strong>：172.16.100.201</li>
+<li><strong>户名/密码</strong>：root/root<blockquote>
+<p>注意：这是开发服务器地址，如果想远程其他服务器，请自行更改地址以及账密</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="结束进程-停掉Tomcat"><a href="#结束进程-停掉Tomcat" class="headerlink" title="结束进程(停掉Tomcat)"></a><span id="jump">结束进程(停掉Tomcat)</span></h2><ul>
+<li><p><strong>查询进程</strong>：ps -ef|grep java</p>
+</li>
+<li><p><strong>杀死进程</strong>：kill -9 pid</p>
+<blockquote>
+<p>注意：pid是你要杀死的进程id</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="进入tomcat目录"><a href="#进入tomcat目录" class="headerlink" title="进入tomcat目录"></a>进入tomcat目录</h2><p>两种方式到tomcat目录下：</p>
+<ul>
+<li><strong>方式一</strong>：cd /opt/platform/tomcat-platform-portal/</li>
+<li><strong>方式二</strong>：pt(自定义的快捷方式，我这里新建了一个shell脚本，脚本内容是配置pt为打开tomcat的快捷操作)</li>
+</ul>
+<h2 id="删除以及更新备份文件"><a href="#删除以及更新备份文件" class="headerlink" title="删除以及更新备份文件"></a>删除以及更新备份文件</h2><ul>
+<li>rm -rf portal-web/</li>
+<li>mv webapps/portal-web/ .<blockquote>
+<p>注意：mv webapps/portal-web/ .命令中”.”与”/“之间有个空格</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="传包到webapps目录下"><a href="#传包到webapps目录下" class="headerlink" title="传包到webapps目录下"></a>传包到webapps目录下</h2><h2 id="启动Tomcat"><a href="#启动Tomcat" class="headerlink" title="启动Tomcat"></a>启动Tomcat</h2><p>bin/startup.sh</p>
+<h2 id="停掉Tomcat"><a href="#停掉Tomcat" class="headerlink" title="停掉Tomcat"></a>停掉Tomcat</h2><blockquote>
+<p>建议使用结束进程的方式停掉Tomcat,先查询该项目的进程id，再使用kill命令杀死进程，参考<a href="#jump">结束进程</a></p>
+</blockquote>
+<h2 id="删除war包"><a href="#删除war包" class="headerlink" title="删除war包"></a>删除war包</h2><p>rm -f webapps/portal-web.war</p>
+<h2 id="再次启动Tomcat"><a href="#再次启动Tomcat" class="headerlink" title="再次启动Tomcat"></a>再次启动Tomcat</h2><p>bin/startup.sh </p>
+<h2 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h2><p>tail -f logs/catalina.out</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">idea</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2019/06/23/%E5%A6%82%E4%BD%95%E5%B0%86web%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
+<nav id="article-nav">
+  
+    <a href="/2019/07/09/%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2kafka/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          安装部署kafka
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/02/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2019-09-02T15:28:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-02</time>
-</a>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E8%BF%9C%E7%A8%8B%E5%B7%A5%E5%85%B7-%E5%A6%82-MobaXterm"><span class="toc-number">1.</span> <span class="toc-text">下载远程工具(如:MobaXterm)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0%E5%BC%80%E5%8F%91%E6%B5%8B%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">连接到开发测试服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E8%BF%9B%E7%A8%8B-%E5%81%9C%E6%8E%89Tomcat"><span class="toc-number">3.</span> <span class="toc-text">结束进程(停掉Tomcat)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5tomcat%E7%9B%AE%E5%BD%95"><span class="toc-number">4.</span> <span class="toc-text">进入tomcat目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E4%BB%A5%E5%8F%8A%E6%9B%B4%E6%96%B0%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">删除以及更新备份文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E5%8C%85%E5%88%B0webapps%E7%9B%AE%E5%BD%95%E4%B8%8B"><span class="toc-number">6.</span> <span class="toc-text">传包到webapps目录下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8Tomcat"><span class="toc-number">7.</span> <span class="toc-text">启动Tomcat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9C%E6%8E%89Tomcat"><span class="toc-number">8.</span> <span class="toc-text">停掉Tomcat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4war%E5%8C%85"><span class="toc-number">9.</span> <span class="toc-text">删除war包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E6%AC%A1%E5%90%AF%E5%8A%A8Tomcat"><span class="toc-number">10.</span> <span class="toc-text">再次启动Tomcat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">11.</span> <span class="toc-text">查看日志</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-    	 
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/02/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">单件模式</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/20/%E5%88%9B%E5%BB%BA%E5%8D%95%E7%BA%BF%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2019-07-20T00:53:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/20/%E5%88%9B%E5%BB%BA%E5%8D%95%E7%BA%BF%E7%A8%8B/">创建单线程</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -314,9 +393,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
